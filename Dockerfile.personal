@@ -1,0 +1,16 @@
+# The pinned upstream runtime supplies Python, cron and gettext. Application
+# source and Python dependencies below come entirely from this checkout/lockfile.
+FROM versun/rssbox:2026.10.20@sha256:46361def05ad6aba8a3d2e332ebe39423be5344ea4631f045e35ac420a0cf77b
+ARG REVISION
+LABEL org.opencontainers.image.source="https://github.com/zygwin15/RSSBox" \
+      org.opencontainers.image.revision="${REVISION}"
+RUN cp /opt/venv/bin/uv /usr/local/bin/uv && rm -rf /app && mkdir /app
+WORKDIR /app
+COPY pyproject.toml uv.lock /app/
+RUN UV_PROJECT_ENVIRONMENT=/opt/venv uv sync --python /usr/local/bin/python --locked --no-install-project
+COPY . /app/
+RUN cp /app/config/rt_cron /etc/cron.d/rt_cron && chmod 0644 /etc/cron.d/rt_cron && \
+    cp /app/scripts/personal_entrypoint.sh /usr/local/bin/personal-entrypoint && \
+    chmod +x /usr/local/bin/personal-entrypoint
+ENTRYPOINT ["personal-entrypoint"]
+CMD ["/opt/venv/bin/gunicorn", "config.wsgi:application"]

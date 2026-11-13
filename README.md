@@ -1,3 +1,5 @@
+> Personal fork: local container builds and opt-in YouTube support. See [fork workflow](docs/personal-fork.md). Upstream: [versun/RSSBox](https://github.com/versun/RSSBox).
+
 <div align="center">
 <em><img src="https://raw.githubusercontent.com/versun/rssbox/main/core/static/favicon.ico" height="90px"></em>
 <h1>RSSBox<br/><sub>让RSS管理更智能，让信息获取更高效</sub></h1>
