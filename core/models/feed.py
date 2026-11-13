@@ -64,7 +64,7 @@ class Feed(models.Model):
     )
     max_posts = models.IntegerField(
         _("Max Posts"),
-        default=os.getenv("default_max_posts", 20),
+        default=int(os.getenv("default_max_posts", 20)),
         help_text=_("Max number of posts to be fetched"),
     )
 
